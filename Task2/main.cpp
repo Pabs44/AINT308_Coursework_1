@@ -10,7 +10,7 @@ int main()
 {
 
     VideoCapture InputStream("../Task2/Video.mp4"); //Load in the video as an input stream
-    const Point Pivot(592,52);                                      //Pivot position in the video
+    const Point Pivot(592,52);                      //Pivot position in the video
 
     //Open output file for angle data
     ofstream DataFile;
@@ -60,10 +60,9 @@ int main()
         line(Frame, Point(Target.x,Target.y-30), Point(Target.x,Target.y+30), Scalar(0,255,0), 2);
         line(Frame, Pivot, Target, Scalar(0,0,255), 2);
 
-        //
-        //double Angle = atan2(Target.y, Pivot.x);
+        //Calculate angle between target and pivot -> put into .csv
         double Angle = atan2(Target.x - Pivot.x, Target.y - Pivot.y);
-        cout << Angle * 180 / M_PI << endl;
+        cout << Angle * 180 / M_PI << endl;     //print angle in degrees
         DataFile << Angle << endl;
 
         //==============================================================================================================================

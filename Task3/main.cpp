@@ -19,26 +19,23 @@ int main()
         Mat Component = imread(Path+"Component"+to_string(n)+".png");
 
         //================Your code goes here=====================
+        //Output match image
+        Mat ImageMatch;
+        matchTemplate(PCB, Component, ImageMatch, TM_SQDIFF_NORMED);
 
+        //Location and values of matching section
+        double MinVal, MaxVal;
+        Point MinLoc, MaxLoc;
+        minMaxLoc(ImageMatch, &MinVal, &MaxVal, &MinLoc, &MaxLoc);
 
+        //Check if matched pixels are below acceptable minimum
+        if(MinVal > 0.009) cout << "\nError: Component not found" << endl; //error if above
+        else{
+            Point CompRect(MinLoc.x + Component.cols, MinLoc.y + Component.rows); //find point to recreate component dimensions
+            rectangle(PCB, MinLoc, CompRect, Scalar(0,0,255), 2);                 //trace component if below
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //display the results untill x is pressed
+        //display the results until x is pressed
         while(waitKey(10)!='x'){
             imshow("Target", Component);
             imshow("PCB", PCB);
