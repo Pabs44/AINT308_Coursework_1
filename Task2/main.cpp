@@ -6,8 +6,7 @@
 using namespace std;
 using namespace cv;
 
-int main()
-{
+int main(){
 
     VideoCapture InputStream("../Task2/Video.mp4"); //Load in the video as an input stream
     const Point Pivot(592,52);                      //Pivot position in the video
@@ -37,20 +36,27 @@ int main()
         //======================================================Your code goes here====================================================
         //this code will run for each frame of the video. your task is to find the location of the swinging green target, and to find
         //its angle to the pivot. These angles will be saved to a .csv file where they can be plotted in Excel.
-        Mat FrameHSV;
-        cvtColor(Frame,FrameHSV,COLOR_BGR2HSV);
-        Mat FrameFiltered;
-        Vec3b LowerBound(HueLower, SatLower, ValLower);
+        Mat FrameHSV;                                               //Create frame to take in conversion
+        cvtColor(Frame,FrameHSV,COLOR_BGR2HSV);                     //Convert frame from BGR to HSV (hue saturation)
+        Mat FrameFiltered;                                          //Create frame to take in found pixels corresponding to filter
+        Vec3b LowerBound(HueLower, SatLower, ValLower);             //Set boundaries according to earlier initialized values as vectors
         Vec3b UpperBound(HueUpper, SatUpper, ValUpper);
-        inRange(FrameHSV, LowerBound, UpperBound, FrameFiltered);
+        inRange(FrameHSV, LowerBound, UpperBound, FrameFiltered);   //Filter pixels in specified boundaries
 
         imshow("Filter", FrameFiltered);
 
         //Calculate center of target
         Moments m = moments(FrameFiltered, true);
         Point p(p.x = m.m10/m.m00, p.y = m.m01/m.m00);
-        Point Target(0,0);
-        if(m.m00 != 0) Target = p;
+        Point Target(0,0), old_Target(0,0);
+        //Check if first moment exists
+        if(m.m00 != 0){
+            old_Target = Target;
+            Target = p;
+        }else{
+            cout<<"Error: Target not found"<<endl;
+            Target = old_Target;
+        }
 
         //Draw point and circle at pivot and center of target respectively
         circle(Frame, Target, 20, Scalar(0,255,0), 3);

@@ -5,8 +5,7 @@
 using namespace std;
 using namespace cv;
 
-int main()
-{
+int main(){
 
     //Path to image file
     string Path = "../Task3/PCB Images/";

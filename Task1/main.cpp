@@ -16,7 +16,7 @@ int main(){
     string PathToFolder = "../Task1/Car Images/";
 
     //Loop through the 30 car images
-    for(int n=0; n<30; ++n){
+    for(int n=0; n<50; ++n){
 
         //Each image is named 0.png, 1.png, 2.png, etc. So generate the image file path based on n and the folder path
         string PathToImage = PathToFolder+to_string(n)+".png";
@@ -90,14 +90,25 @@ int main(){
             }
         }
         //check if car is distinctively R, G or B -> check which stack is max
+        string colorSelect;
         if(sort[0]-sort[2] >= 50){
-            if(sort[0] == PixelsB) cout<<"The car is blue"<<endl;
-            else if(sort[0] == PixelsG) cout<<"The car is green"<<endl;
-            else if(sort[0] == PixelsR) cout<<"The car is red"<<endl;
+            if(sort[0] == PixelsB){
+                cout<<"The car is blue"<<endl;
+                colorSelect = "The car is blue";
+            }
+            else if(sort[0] == PixelsG){
+                cout<<"The car is green"<<endl;
+                colorSelect = "The car is green";
+            }
+            else if(sort[0] == PixelsR){
+                cout<<"The car is red"<<endl;
+                colorSelect = "The car is red";
+            }
         }else cout << "Error: Car is not red, green or blue" << endl;   //return error if car is not R, G or B
 
         //display the car image until x is pressed
         while(waitKey(10)!='x'){
+            putText(Car, colorSelect, Point(10,25),FONT_HERSHEY_COMPLEX,1.0,Scalar(0,0,0),2);
             imshow("Car", Car);
         }
 
