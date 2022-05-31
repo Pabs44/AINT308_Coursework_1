@@ -52,6 +52,7 @@ LIBS +=    -lopencv_core411 \
 
 #====================Project Includes======================
 SOURCES += \
-    main.cpp
+    main.cpp \
+    temp.cpp
 
 HEADERS +=
